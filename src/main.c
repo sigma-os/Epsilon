@@ -1,31 +1,34 @@
-#include <efi/efi.h>
-#include <efi/efilib.h>
+#include <Epsilon/uefi/types.h>
+#include <Epsilon/uefi/runtime-services.h>
+#include <Epsilon/uefi/system-table.h>
+#include <Epsilon/uefi/boot-services.h>
+
 #include <stdint.h>
-#include <sigma_loader.h>
-#include <sigma_file.h>
-#include <sigma_graphics.h>
-#include <acpi.h>
+#include <Epsilon/sigma_loader.h>
+#include <Epsilon/sigma_file.h>
+#include <Epsilon/sigma_graphics.h>
 
 
 sigma_booted_header_t sigma_header;
-EFI_SYSTEM_TABLE* st;
+efi_system_table* st;
 
-EFI_STATUS EFIAPI efi_main(EFI_HANDLE ImageHandle, EFI_SYSTEM_TABLE *SystemTable)
+efi_status efi_main(efi_handle ImageHandle, efi_system_table *SystemTable)
 {
-    InitializeLib(ImageHandle, SystemTable);
-    uefi_call_wrapper(SystemTable->BootServices->SetWatchdogTimer, 4, 0, 0, 0, NULL);
+    SystemTable->BootServices->SetWatchdogTimer(0, 0, 0, NULL);
     st = SystemTable;
 
-    Print(L"Booting Sigma\n");
+    st->ConOut->OutputString(st->ConOut, L"Booting Epsilon");
+
+    (void)(ImageHandle);
 
     init_sigma_file();
     init_sigma_graphics();
 
-    
+    while(1);
 
     return EFI_SUCCESS;
 }
 
-EFI_SYSTEM_TABLE* get_system_table(){
+efi_system_table* get_system_table(){
     return st;
 }

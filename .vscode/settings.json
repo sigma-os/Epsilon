@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "sigma_file.h": "c",
+        "sigma_loader.h": "c",
+        "file.h": "c",
+        "types.h": "c",
+        "runtime-services.h": "c",
+        "system-table.h": "c",
+        "boot-services.h": "c",
+        "sigma_graphics.h": "c",
+        "acpi.h": "c"
+    }
+}
